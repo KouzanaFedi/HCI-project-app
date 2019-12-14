@@ -3,7 +3,7 @@
     <router-link to="/">
       <h1>Minesweeper game goes here</h1>
     </router-link>
-    <Grid v-bind:minesweeperGrid="minesweeperGrid" />
+    <Grid :minesweeperGrid="minesweeperGrid" />
   </div>
 </template>
 
