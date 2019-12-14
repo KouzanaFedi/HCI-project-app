@@ -30,7 +30,6 @@ class Minesweeper {
         }
 
 
-        console.log(this.grid);
     }
 
     AddMinePos() {
@@ -73,50 +72,50 @@ class Minesweeper {
 
     getAllNeighbours(rowIndex, columnIndex) {
         let neighbours = [];
-        if (rowIndex - 1 > 0) {
+        if ((rowIndex - 1) >= 0) {
             neighbours.push({
                 "rowIndex": rowIndex - 1,
                 columnIndex
             });
         }
-        if (rowIndex - 1 > 0 && columnIndex - 1 > 0) {
+        if ((rowIndex - 1) >= 0 && (columnIndex - 1) >= 0) {
             neighbours.push({
                 "rowIndex": rowIndex - 1,
                 "columnIndex": columnIndex - 1
             });
         }
-        if (rowIndex - 1 > 0 && columnIndex + 1 < this.nbColumns) {
+        if ((rowIndex - 1) >= 0 && (columnIndex + 1) < this.nbColumns) {
             neighbours.push({
                 "rowIndex": rowIndex - 1,
                 "columnIndex": columnIndex + 1
 
             });
         }
-        if (columnIndex - 1 > 0) {
+        if ((columnIndex - 1) >= 0) {
             neighbours.push({
                 rowIndex,
                 "columnIndex": columnIndex - 1
             });
         }
-        if (columnIndex + 1 < this.nbColumns) {
+        if ((columnIndex + 1) < this.nbColumns) {
             neighbours.push({
                 rowIndex,
                 "columnIndex": columnIndex + 1
             });
         }
-        if (rowIndex + 1 < this.nbRows) {
+        if ((rowIndex + 1) < this.nbRows) {
             neighbours.push({
                 "rowIndex": rowIndex + 1,
                 columnIndex
             });
         }
-        if (rowIndex + 1 < this.nbRows && columnIndex - 1 > this.nbColumns) {
+        if ((rowIndex + 1) < this.nbRows && (columnIndex - 1) >= 0) {
             neighbours.push({
                 "rowIndex": rowIndex + 1,
                 "columnIndex": columnIndex - 1
             });
         }
-        if (rowIndex + 1 < this.nbRows && columnIndex + 1 < this.nbColumns) {
+        if ((rowIndex + 1) < this.nbRows && (columnIndex + 1) < this.nbColumns) {
             neighbours.push({
                 "rowIndex": rowIndex + 1,
                 "columnIndex": columnIndex + 1
@@ -128,13 +127,14 @@ class Minesweeper {
     }
 
 
-    adjacentMinesCount(rowIndex, columnIndex) {
+    adjacentMinesCount(i, j) {
         let count = 0;
-        this.getAllNeighbours(rowIndex, columnIndex).forEach(element => {
+        this.getAllNeighbours(i, j).forEach(element => {
             let {
                 rowIndex,
                 columnIndex
             } = element;
+
             if (!this.isNotMine(this.grid[rowIndex][columnIndex])) {
                 count++;
             }
