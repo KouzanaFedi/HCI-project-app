@@ -5,16 +5,7 @@
   </div>
 </template>
 
-<script>
-// export default {
-//   methods: {
-//     change() {
-//       this.$router.push("about");
-//       console.log(4);
-//     }
-//   }
-// };
-</script>
+
 
 <style>
 * {
