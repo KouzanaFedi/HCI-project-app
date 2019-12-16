@@ -3,7 +3,7 @@
     <router-link to="/">
       <h1>Minesweeper game goes here</h1>
     </router-link>
-    <Grid :minesweeperGrid="minesweeperGrid" />
+    <Grid :minesweeperGrid="minesweeperGrid" :minesPos="minesPos" />
   </div>
 </template>
 
@@ -19,7 +19,8 @@ export default {
   },
   data() {
     return {
-      minesweeperGrid: minesweeperGrid.grid
+      minesweeperGrid: minesweeperGrid.grid,
+      minesPos: minesweeperGrid.minesPos
     };
   }
 };

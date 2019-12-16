@@ -1,20 +1,30 @@
 <template>
-  <table>
-    <tr v-for="(rows,i) in minesweeperGrid" :key="i">
-      <td v-for="(cells,j) in rows" :key="j">
-        <Cell :index="minesweeperGrid[i][j]" />
-      </td>
-    </tr>
-  </table>
+  <div>
+    <table>
+      <tr v-for="(rows,i) in minesweeperGrid" :key="i">
+        <td v-for="(cells,j) in rows" :key="j">
+          <Cell @reveal-mines="loser" :value="minesweeperGrid[i][j]" :index="{i,j}" />
+        </td>
+      </tr>
+    </table>
+  </div>
 </template>
 
 <script>
 import Cell from "./Cell";
+import EventBus from "../../buses/minesweeperEventBus";
 export default {
   name: "Grid",
-  props: ["minesweeperGrid"],
+  props: ["minesweeperGrid", "minesPos"],
   components: {
     Cell
+  },
+  methods: {
+    loser() {
+      this.minesPos.forEach(element => {
+        EventBus.$emit("delete-cell", element);
+      });
+    }
   }
 };
 </script>

@@ -3,38 +3,57 @@
     class="container"
     :class="{hiden :hiden, showen : !hiden}"
     @click="reveal"
-    @contextmenu="changeCautious"
+    @contextmenu="changeflag"
   >{{cellContent}}</div>
 </template>
 
 <script>
+import EventBus from "../../buses/minesweeperEventBus";
+
 export default {
   name: "Cell",
-  props: ["index"],
+  props: ["index", "value"],
   data() {
     return {
       hiden: true,
-      cautious: false
+      flag: false
     };
   },
   methods: {
     reveal() {
-      if (!this.cautious) {
+      if (!this.flag) {
         this.hiden = false;
+        if (this.value == -1) {
+          this.$emit("reveal-mines");
+        }
       }
     },
-    changeCautious() {
+    changeflag() {
       if (this.hiden) {
-        this.cautious = !this.cautious;
+        this.flag = !this.flag;
+      }
+    },
+    show() {
+      if (!this.flag) {
+        this.hiden = false;
       }
     }
   },
   computed: {
     cellContent() {
-      if (!this.hiden) return this.index;
-      else if (this.cautious) return "X";
+      if (!this.hiden) return this.value;
+      else if (this.flag) return "X";
       else return "";
     }
+  },
+  mounted() {
+    let { i, j } = this.index;
+    EventBus.$on("delete-cell", element => {
+      let { rowIndex, columnIndex } = element;
+      if (i == rowIndex && j == columnIndex) {
+        this.show();
+      }
+    });
   }
 };
 </script>
