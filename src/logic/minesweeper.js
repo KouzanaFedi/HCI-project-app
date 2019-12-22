@@ -72,57 +72,22 @@ class Minesweeper {
 
     getAllNeighbours(rowIndex, columnIndex) {
         let neighbours = [];
-        if ((rowIndex - 1) >= 0) {
-            neighbours.push({
-                "rowIndex": rowIndex - 1,
-                columnIndex
-            });
-        }
-        if ((rowIndex - 1) >= 0 && (columnIndex - 1) >= 0) {
-            neighbours.push({
-                "rowIndex": rowIndex - 1,
-                "columnIndex": columnIndex - 1
-            });
-        }
-        if ((rowIndex - 1) >= 0 && (columnIndex + 1) < this.nbColumns) {
-            neighbours.push({
-                "rowIndex": rowIndex - 1,
-                "columnIndex": columnIndex + 1
 
-            });
-        }
-        if ((columnIndex - 1) >= 0) {
-            neighbours.push({
-                rowIndex,
-                "columnIndex": columnIndex - 1
-            });
-        }
-        if ((columnIndex + 1) < this.nbColumns) {
-            neighbours.push({
-                rowIndex,
-                "columnIndex": columnIndex + 1
-            });
-        }
-        if ((rowIndex + 1) < this.nbRows) {
-            neighbours.push({
-                "rowIndex": rowIndex + 1,
-                columnIndex
-            });
-        }
-        if ((rowIndex + 1) < this.nbRows && (columnIndex - 1) >= 0) {
-            neighbours.push({
-                "rowIndex": rowIndex + 1,
-                "columnIndex": columnIndex - 1
-            });
-        }
-        if ((rowIndex + 1) < this.nbRows && (columnIndex + 1) < this.nbColumns) {
-            neighbours.push({
-                "rowIndex": rowIndex + 1,
-                "columnIndex": columnIndex + 1
+        for (let xoff = -1; xoff <= 1; xoff++) {
+            for (let yoff = -1; yoff <= 1; yoff++) {
+                let i = rowIndex + xoff;
+                let j = columnIndex + yoff;
 
-            });
-        }
+                if (i >= 0 && i < this.nbRows && j >= 0 && j < this.nbColumns) {
+                    console.log(i, j);
 
+                    neighbours.push({
+                        "rowIndex": i,
+                        "columnIndex": j
+                    })
+                }
+            }
+        }
         return neighbours;
     }
 
