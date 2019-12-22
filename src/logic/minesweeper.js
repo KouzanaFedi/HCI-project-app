@@ -1,3 +1,5 @@
+import Cell from "./cell"
+
 class Minesweeper {
     constructor(nbRows, nbColumns, nbMines) {
         this.nbColumns = nbColumns;
@@ -5,8 +7,11 @@ class Minesweeper {
         this.nbMines = nbMines;
 
         let grid = new Array(this.nbRows);
-        for (let index = 0; index < this.nbRows; index++) {
-            grid[index] = new Array(this.nbColumns).fill(0);
+        for (let i = 0; i < this.nbRows; i++) {
+            grid[i] = new Array(this.nbColumns);
+            for (let j = 0; j < this.nbColumns; j++) {
+                grid[i][j] = new Cell();
+            }
 
         }
 
@@ -18,13 +23,15 @@ class Minesweeper {
                 rowIndex,
                 columnIndex
             } = this.AddMinePos(this.minesPos, this.nbRows, this.nbColumns)
-            this.grid[rowIndex][columnIndex] = -1;
+            let cell = this.grid[rowIndex][columnIndex];
+            cell.armCell();
         }
 
         for (let i = 0; i < this.nbRows; i++) {
             for (let j = 0; j < this.nbColumns; j++) {
-                if (this.isNotMine(this.grid[i][j])) {
-                    this.grid[i][j] += this.adjacentMinesCount(i, j);
+                let cell = this.grid[i][j];
+                if (!cell.isMine) {
+                    cell.addAdjacentMinesCount(this.adjacentMinesCount(i, j));
                 }
             }
         }
@@ -66,8 +73,26 @@ class Minesweeper {
         return exists;
     }
 
-    isNotMine(index) {
-        return index != -1;
+    floodFill(rowIndex, columnIndex) {
+        for (let xoff = -1; xoff <= 1; xoff++) {
+            for (let yoff = -1; yoff <= 1; yoff++) {
+                let i = rowIndex + xoff;
+                let j = columnIndex + yoff;
+
+                if (i >= 0 && i < this.nbRows && j >= 0 && j < this.nbColumns) {
+                    if (this.grid[i][j].hidden) {
+                        this.reveal(i, j);
+                    }
+                }
+            }
+        }
+    }
+
+    reveal(i, j) {
+        this.grid[i][j].show();
+        if (this.grid[i][j].value == 0) {
+            this.floodFill(i, j);
+        }
     }
 
     getAllNeighbours(rowIndex, columnIndex) {
@@ -79,8 +104,6 @@ class Minesweeper {
                 let j = columnIndex + yoff;
 
                 if (i >= 0 && i < this.nbRows && j >= 0 && j < this.nbColumns) {
-                    console.log(i, j);
-
                     neighbours.push({
                         "rowIndex": i,
                         "columnIndex": j
@@ -99,8 +122,7 @@ class Minesweeper {
                 rowIndex,
                 columnIndex
             } = element;
-
-            if (!this.isNotMine(this.grid[rowIndex][columnIndex])) {
+            if (this.grid[rowIndex][columnIndex].isMine) {
                 count++;
             }
         });

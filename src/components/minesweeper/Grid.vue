@@ -3,7 +3,12 @@
     <table>
       <tr v-for="(rows,i) in minesweeperGrid" :key="i">
         <td v-for="(cells,j) in rows" :key="j">
-          <Cell @reveal-mines="loser" :value="minesweeperGrid[i][j]" :index="{i,j}" />
+          <Cell
+            :hidden="minesweeperGrid[i][j].hidden"
+            :value="minesweeperGrid[i][j].value"
+            :index="{i,j}"
+            @reveal-cell="reveal"
+          />
         </td>
       </tr>
     </table>
@@ -12,18 +17,15 @@
 
 <script>
 import Cell from "./Cell";
-import EventBus from "../../buses/minesweeperEventBus";
 export default {
   name: "Grid",
-  props: ["minesweeperGrid", "minesPos"],
+  props: ["minesweeperGrid"],
   components: {
     Cell
   },
   methods: {
-    loser() {
-      this.minesPos.forEach(element => {
-        EventBus.$emit("delete-cell", element);
-      });
+    reveal(index) {
+      this.$emit("reveal-cell", index);
     }
   }
 };

@@ -1,59 +1,40 @@
 <template>
   <div
     class="container"
-    :class="{hiden :hiden, showen : !hiden}"
+    :class="{hiden :hidden, showen : !hidden}"
     @click="reveal"
-    @contextmenu="changeflag"
+    @contextmenu="flag"
   >{{cellContent}}</div>
 </template>
 
 <script>
-import EventBus from "../../buses/minesweeperEventBus";
-
 export default {
   name: "Cell",
-  props: ["index", "value"],
+  props: ["value", "hidden", "index"],
   data() {
-    return {
-      hiden: true,
-      flag: false
-    };
+    return { flagged: false };
   },
   methods: {
     reveal() {
-      if (!this.flag) {
-        this.hiden = false;
-        if (this.value == -1) {
-          this.$emit("reveal-mines");
-        }
+      if (!this.flagged) {
+        this.$emit("reveal-cell", this.index);
       }
     },
-    changeflag() {
-      if (this.hiden) {
-        this.flag = !this.flag;
-      }
-    },
-    show() {
-      if (!this.flag) {
-        this.hiden = false;
+    flag() {
+      if (this.hidden) {
+        this.flagged = !this.flagged;
       }
     }
   },
   computed: {
     cellContent() {
-      if (!this.hiden) return this.value;
-      else if (this.flag) return "X";
+      if (!this.hidden) {
+        if (this.value == 0) {
+          return "";
+        } else return this.value;
+      } else if (this.flagged) return "X";
       else return "";
     }
-  },
-  mounted() {
-    let { i, j } = this.index;
-    EventBus.$on("delete-cell", element => {
-      let { rowIndex, columnIndex } = element;
-      if (i == rowIndex && j == columnIndex) {
-        this.show();
-      }
-    });
   }
 };
 </script>
