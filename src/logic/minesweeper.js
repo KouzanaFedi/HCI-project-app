@@ -89,10 +89,15 @@ class Minesweeper {
     }
 
     reveal(i, j) {
+        console.log("revealing");
+
         this.grid[i][j].show();
         if (this.grid[i][j].value == 0) {
             this.floodFill(i, j);
         }
+
+        console.log(this.grid[i][j].hidden);
+
     }
 
     getAllNeighbours(rowIndex, columnIndex) {
