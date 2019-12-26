@@ -3,7 +3,18 @@
     <router-link to="/">
       <h1>Minesweeper game goes here</h1>
     </router-link>
-    <Grid :minesweeperGrid="minesweeperGrid" @reveal-cell="reveal" />
+    <div class="container">
+      <div class="difficulty-buttons">
+        <button @click="easy">Easy</button>
+        <button @click="meduim">Medium</button>
+        <button @click="hard">Hard</button>
+      </div>
+      <Grid
+        :key="JSON.stringify(this.minesweeperGrid)"
+        :minesweeperGrid="minesweeperGrid"
+        @reveal-cell="reveal"
+      />
+    </div>
   </div>
 </template>
 
@@ -20,21 +31,53 @@ export default {
   },
   data() {
     return {
+      minesweeper: minesweeperGrid,
       minesweeperGrid: minesweeperGrid.grid
     };
   },
   methods: {
     reveal(index) {
       let { i, j } = index;
-      if (!minesweeperGrid.grid[i][j].isMine) {
-        minesweeperGrid.reveal(i, j);
+      if (!this.minesweeperGrid[i][j].isMine) {
+        this.minesweeper.reveal(i, j);
       } else {
-        minesweeperGrid.minesPos.forEach(element => {
+        this.minesweeper.minesPos.forEach(element => {
           let { rowIndex, columnIndex } = element;
-          minesweeperGrid.grid[rowIndex][columnIndex].show();
+          let cell = this.minesweeperGrid[rowIndex][columnIndex];
+          cell.show();
         });
       }
+    },
+    easy() {
+      let newGrid = new Minesweeper(5, 5, 6);
+      this.minesweeper = newGrid;
+      this.minesweeperGrid = newGrid.grid;
+    },
+    meduim() {
+      let newGrid = new Minesweeper(10, 10, 25);
+      this.minesweeper = newGrid;
+      this.minesweeperGrid = newGrid.grid;
+    },
+    hard() {
+      let newGrid = new Minesweeper(14, 14, 35);
+      this.minesweeper = newGrid;
+      this.minesweeperGrid = newGrid.grid;
     }
   }
 };
 </script>
+
+<style scoped>
+.difficulty-buttons {
+  height: 100%;
+  width: 120px;
+  display: block;
+}
+.container {
+  display: inline;
+}
+
+Grid {
+  float: left;
+}
+</style>

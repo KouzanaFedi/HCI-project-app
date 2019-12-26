@@ -93,6 +93,7 @@ class Minesweeper {
         if (this.grid[i][j].value == 0) {
             this.floodFill(i, j);
         }
+
     }
 
     getAllNeighbours(rowIndex, columnIndex) {

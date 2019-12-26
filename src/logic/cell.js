@@ -14,6 +14,7 @@ class Cell {
     armCell() {
         this.value = -1
         this.isMine = true;
+        this.hidden = false;
     }
 
     addAdjacentMinesCount(count) {
