@@ -10,8 +10,8 @@
         <button @click="hard">Hard</button>
       </div>
       <Grid
-        :key="JSON.stringify(this.minesweeperGrid)"
-        :minesweeperGrid="minesweeperGrid"
+        :key="JSON.stringify(this.minesweeper.grid)"
+        :minesweeperGrid="minesweeper.grid"
         @reveal-cell="reveal"
       />
     </div>
@@ -31,19 +31,18 @@ export default {
   },
   data() {
     return {
-      minesweeper: minesweeperGrid,
-      minesweeperGrid: minesweeperGrid.grid
+      minesweeper: minesweeperGrid
     };
   },
   methods: {
     reveal(index) {
       let { i, j } = index;
-      if (!this.minesweeperGrid[i][j].isMine) {
+      if (!this.minesweeper.grid[i][j].isMine) {
         this.minesweeper.reveal(i, j);
       } else {
         this.minesweeper.minesPos.forEach(element => {
           let { rowIndex, columnIndex } = element;
-          let cell = this.minesweeperGrid[rowIndex][columnIndex];
+          let cell = this.minesweeper.grid[rowIndex][columnIndex];
           cell.show();
         });
       }
@@ -51,17 +50,14 @@ export default {
     easy() {
       let newGrid = new Minesweeper(5, 5, 6);
       this.minesweeper = newGrid;
-      this.minesweeperGrid = newGrid.grid;
     },
     meduim() {
       let newGrid = new Minesweeper(10, 10, 25);
       this.minesweeper = newGrid;
-      this.minesweeperGrid = newGrid.grid;
     },
     hard() {
       let newGrid = new Minesweeper(14, 14, 35);
       this.minesweeper = newGrid;
-      this.minesweeperGrid = newGrid.grid;
     }
   }
 };
