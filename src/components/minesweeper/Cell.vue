@@ -16,16 +16,9 @@ export default {
   },
   methods: {
     reveal() {
-      console.log(this.value);
-      console.log(this.hidden);
-
       if (!this.flagged) {
         this.$emit("reveal-cell", this.index);
       }
-
-      setTimeout(() => {
-        console.log(this.hidden);
-      }, 500);
     },
     flag() {
       if (this.hidden) {
