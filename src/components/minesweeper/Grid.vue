@@ -19,6 +19,11 @@
 import Cell from "./Cell";
 export default {
   name: "Grid",
+  data() {
+    return {
+      firstTouch: false
+    };
+  },
   props: ["minesweeperGrid"],
   components: {
     Cell
@@ -35,9 +40,9 @@ export default {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  border: 2px solid black;
+  border: 2px transparent;
 }
 table td {
-  border: 2px solid black;
+  border: 2px transparent;
 }
 </style>

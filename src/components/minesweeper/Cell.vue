@@ -1,10 +1,15 @@
 <template>
-  <div
-    class="container"
-    :class="{hiden :hidden, showen : !hidden}"
-    @click="reveal"
-    @contextmenu="flag"
-  >{{cellContent}}</div>
+  <div class="holder" @click="reveal" @contextmenu="flag">
+    <div :class="hidden ? 'element-hidden' : 'element-showen'">
+      <div class="effect-div" :class="hidden ? 'effect-div-hidden' : 'effect-div-showen'">
+        <img v-if="flagged" src="../../assets/flag_red.png" alt="?" />
+        <div v-if="!hidden">
+          <div v-if="value>0" class="index" :class="color">{{cellContent}}</div>
+          <img v-if="value==-1" src="../../assets/mines_icon.png" alt="X" class="mine" />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -28,29 +33,125 @@ export default {
   },
   computed: {
     cellContent() {
-      if (!this.hidden) {
-        if (this.value == 0) {
+      if (this.value == 0) return "";
+      else return this.value;
+    },
+    color() {
+      switch (this.value) {
+        case 1:
+          return "num1";
+        case 2:
+          return "num2";
+        case 3:
+          return "num3";
+        case 4:
+          return "num4";
+        case 5:
+          return "num5";
+        case 6:
+          return "num6";
+        case 7:
+          return "num7";
+        case 8:
+          return "num8";
+        default:
           return "";
-        } else return this.value;
-      } else if (this.flagged) return "X";
-      else return "";
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-.container {
-  width: 45px;
-  height: 45px;
+.holder {
+  width: 37.5px;
+  height: 37.5px;
+  margin: 3px;
   text-align: center;
+  border-radius: 10%;
+  box-shadow: -5px -5px 5px black;
+  background-color: #444362;
 }
 
-.hiden {
-  background-color: rgb(76, 73, 73);
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.mine {
+  margin-top: 3px;
+  max-width: 30px;
+  max-height: 30px;
 }
 
-.showen {
-  background-color: white;
+.index {
+  margin-top: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.element-hidden {
+  width: 33px;
+  height: 33px;
+  border-radius: 100%;
+  background-color: inherit;
+  display: inline-block;
+  margin-top: 1px;
+}
+.effect-div-hidden {
+  width: 33px;
+  height: 33px;
+  border-radius: 100%;
+  background-color: transparent;
+  display: inline-block;
+  margin-top: 1px;
+}
+
+.element-showen {
+  width: 33px;
+  height: 33px;
+  border-radius: 100%;
+  background-color: inherit;
+  display: inline-block;
+  margin-top: 1px;
+  box-shadow: inset -5px 5px 5px 1px #121219;
+}
+.effect-div-showen {
+  width: 33px;
+  height: 33px;
+  border-radius: 100%;
+  background-color: transparent;
+  display: inline-block;
+  margin-top: 1px;
+  box-shadow: inset 5px -5px 10px #5b5b76;
+}
+
+.empty {
+}
+
+.num1 {
+  color: #2e8137;
+}
+.num2 {
+  color: #164866;
+}
+.num3 {
+  color: #b6261c;
+}
+.num4 {
+  color: #7d005c;
+}
+.num5 {
+  color: #b8b01f;
+}
+.num6 {
+  color: #9e7237;
+}
+.num7 {
+  color: #481514;
+}
+.num8 {
+  color: #000;
 }
 </style>
