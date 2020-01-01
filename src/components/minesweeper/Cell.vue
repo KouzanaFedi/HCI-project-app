@@ -15,19 +15,20 @@
 <script>
 export default {
   name: "Cell",
-  props: ["value", "hidden", "index"],
-  data() {
-    return { flagged: false };
-  },
+  props: ["value", "hidden", "index", "flagged", "firstTouch"],
+
   methods: {
     reveal() {
       if (!this.flagged) {
         this.$emit("reveal-cell", this.index);
+        if (this.firstTouch) {
+          this.$emit("startTimer");
+        }
       }
     },
     flag() {
       if (this.hidden) {
-        this.flagged = !this.flagged;
+        this.$emit("flag", this.index);
       }
     }
   },
@@ -85,8 +86,6 @@ img {
 
 .index {
   margin-top: 6px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 20px;
   font-weight: bold;
 }

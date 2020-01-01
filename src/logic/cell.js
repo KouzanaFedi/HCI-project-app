@@ -3,10 +3,11 @@ class Cell {
         this.value = 0;
         this.hidden = true;
         this.isMine = false;
+        this.flagged = false;
     }
 
     show() {
-        if (this.hidden == true) {
+        if (this.hidden) {
             this.hidden = false;
         }
     }
@@ -14,6 +15,12 @@ class Cell {
     armCell() {
         this.value = -1
         this.isMine = true
+    }
+
+    flag() {
+        if (this.hidden) {
+            this.flagged = !this.flagged;
+        }
     }
 
     addAdjacentMinesCount(count) {

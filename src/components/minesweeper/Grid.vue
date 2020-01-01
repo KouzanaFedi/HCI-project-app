@@ -6,8 +6,12 @@
           <Cell
             :hidden="minesweeperGrid[i][j].hidden"
             :value="minesweeperGrid[i][j].value"
+            :flagged="minesweeperGrid[i][j].flagged"
             :index="{i,j}"
+            :firstTouch="firstTouch"
+            @flag="flag"
             @reveal-cell="reveal"
+            @startTimer="$emit('startTimer')"
           />
         </td>
       </tr>
@@ -19,18 +23,16 @@
 import Cell from "./Cell";
 export default {
   name: "Grid",
-  data() {
-    return {
-      firstTouch: false
-    };
-  },
-  props: ["minesweeperGrid"],
+  props: ["minesweeperGrid", "firstTouch"],
   components: {
     Cell
   },
   methods: {
     reveal(index) {
       this.$emit("reveal-cell", index);
+    },
+    flag(index) {
+      this.$emit("flag", index);
     }
   }
 };

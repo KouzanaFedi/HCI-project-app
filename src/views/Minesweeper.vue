@@ -1,15 +1,23 @@
 <template>
   <div class="about">
     <router-link to="/">
-      <h1>Minesweeper game goes here</h1>
+      <img src="../assets/back_icon.png" alt="<" class="back-icon" />
     </router-link>
     <div class="main-container">
-      <div class="statistics"></div>
+      <Statistics
+        class="statistics"
+        :nbMines="minesweeper.nbMines"
+        :timer="formattedTime"
+        :state="timerState"
+      />
       <div class="game-container">
         <Grid
           :key="JSON.stringify(this.minesweeper.grid)"
           :minesweeperGrid="minesweeper.grid"
+          :firstTouch="firstTouch"
           @reveal-cell="reveal"
+          @startTimer="start"
+          @flag="flag"
         />
         <div class="difficulty-buttons">
           <button @click="easy">Easy</button>
@@ -24,25 +32,31 @@
 <script>
 import Minesweeper from "../logic/minesweeper";
 import Grid from "../components/minesweeper/Grid";
+import Statistics from "../components/Statistics";
 
 let minesweeperGrid = new Minesweeper(10, 10, 25);
 
 export default {
   name: "minesweeper",
   components: {
-    Grid
+    Grid,
+    Statistics
   },
   data() {
     return {
       minesweeper: minesweeperGrid,
-      started: false,
-      minutes: 0,
-      seconds: 0
+      timerState: "stopped",
+      currentTimer: 0,
+      formattedTime: "00:00:00",
+      ticker: undefined,
+      firstTouch: true
     };
   },
   methods: {
     reveal(index) {
-      this.started = true;
+      if (this.firstTouch) {
+        this.firstTouch = false;
+      }
       let { i, j } = index;
       if (!this.minesweeper.grid[i][j].isMine) {
         this.minesweeper.reveal(i, j);
@@ -50,25 +64,60 @@ export default {
         this.minesweeper.minesPos.forEach(element => {
           let { rowIndex, columnIndex } = element;
           let cell = this.minesweeper.grid[rowIndex][columnIndex];
-          cell.show();
+          if (!cell.flagged) {
+            cell.show();
+          }
         });
-        this.started = false;
+        this.pause();
       }
+    },
+    flag(index) {
+      let { i, j } = index;
+      this.minesweeper.grid[i][j].flag();
     },
     easy() {
       let newGrid = new Minesweeper(5, 5, 6);
       this.minesweeper = newGrid;
-      this.started = false;
+      this.reset();
     },
     meduim() {
       let newGrid = new Minesweeper(10, 10, 25);
       this.minesweeper = newGrid;
-      this.started = false;
+      this.reset();
     },
     hard() {
       let newGrid = new Minesweeper(14, 14, 35);
       this.minesweeper = newGrid;
-      this.started = false;
+      this.reset();
+    },
+    start() {
+      if (this.timerState !== "running") {
+        this.tick();
+        this.timerState = "running";
+      }
+    },
+    pause() {
+      window.clearInterval(this.ticker);
+      this.timerState = "paused";
+    },
+    reset() {
+      window.clearInterval(this.ticker);
+      this.currentTimer = 0;
+      this.formattedTime = "00:00:00";
+      this.timerState = "reseted";
+      this.firstTouch = true;
+    },
+    tick() {
+      this.ticker = setInterval(() => {
+        this.currentTimer++;
+        this.formattedTime = this.formatTime(this.currentTimer);
+      }, 1000);
+    },
+    formatTime(seconds) {
+      let measuredTime = new Date(null);
+      measuredTime.setSeconds(seconds);
+      let MHSTime = measuredTime.toISOString().substr(11, 8);
+      return MHSTime;
     }
   }
 };
@@ -87,8 +136,6 @@ button {
   margin: 20px;
   border-radius: 15px;
   color: white;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 17px;
 }
 
@@ -101,17 +148,29 @@ button {
 
 .main-container {
   width: 100%;
-  height: 100%;
+  height: 100px;
 }
 .statistics {
   margin: 25px;
-  width: 300px;
+  width: 250px;
   height: 600px;
   background: linear-gradient(#6c56c3, #7537bc, #9a34b4);
   float: left;
 }
-
 .game-container {
-  float: right;
+  position: relative;
+  width: 1200px;
+}
+
+Grid {
+  position: absolute;
+  width: 50%;
+}
+
+.back-icon {
+  width: 30px;
+  height: 30px;
+  padding-top: 10px;
+  padding-left: 10px;
 }
 </style>
