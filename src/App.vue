@@ -1,5 +1,5 @@
 <template>
-  <div id="main-container">
+  <div>
     <router-link to="/"></router-link>
     <router-view />
   </div>
@@ -13,5 +13,8 @@
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+body {
+  overflow: hidden;
 }
 </style>
