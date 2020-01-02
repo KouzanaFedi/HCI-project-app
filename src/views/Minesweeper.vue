@@ -1,17 +1,18 @@
 <template>
-  <div class="about">
+  <div class="background">
     <router-link to="/">
       <img src="../assets/back_icon.png" alt="<" class="back-icon" />
     </router-link>
     <div class="main-container">
       <Statistics
         class="statistics"
-        :nbMines="minesweeper.nbMines"
+        :nbMines="minesweeper.mineNotFlagged"
         :timer="formattedTime"
         :state="timerState"
       />
       <div class="game-container">
         <Grid
+          class="grid"
           :key="JSON.stringify(this.minesweeper.grid)"
           :minesweeperGrid="minesweeper.grid"
           :firstTouch="firstTouch"
@@ -19,6 +20,7 @@
           @startTimer="start"
           @flag="flag"
         />
+
         <div class="difficulty-buttons">
           <button @click="easy">Easy</button>
           <button @click="meduim">Medium</button>
@@ -73,7 +75,11 @@ export default {
     },
     flag(index) {
       let { i, j } = index;
-      this.minesweeper.grid[i][j].flag();
+      if (this.minesweeper.mineNotFlagged > 0) {
+        this.minesweeper.updateMinesNotFlaggedCount(
+          this.minesweeper.grid[i][j].flag()
+        );
+      }
     },
     easy() {
       let newGrid = new Minesweeper(5, 5, 6);
@@ -128,6 +134,12 @@ export default {
   display: inline;
 }
 
+.background {
+  min-height: 690px;
+  background-image: url("../assets/background.jpg");
+  background-size: cover;
+}
+
 button {
   width: 120px;
   height: 30px;
@@ -140,15 +152,19 @@ button {
 }
 
 .difficulty-buttons {
-  height: 200px;
-  width: 100%;
+  height: 150px;
+  width: 600px;
   display: block;
-  float: inline-end;
+  position: absolute;
+  left: 30%;
+  top: 75%;
 }
 
 .main-container {
   width: 100%;
-  height: 100px;
+  height: 800px;
+  display: flex;
+  position: relative;
 }
 .statistics {
   margin: 25px;
@@ -157,14 +173,17 @@ button {
   background: linear-gradient(#6c56c3, #7537bc, #9a34b4);
   float: left;
 }
+
+.grid {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+}
 .game-container {
   position: relative;
-  width: 1200px;
-}
-
-Grid {
-  position: absolute;
-  width: 50%;
+  width: 900px;
+  height: 800px;
+  margin: auto;
 }
 
 .back-icon {
@@ -172,5 +191,6 @@ Grid {
   height: 30px;
   padding-top: 10px;
   padding-left: 10px;
+  position: absolute;
 }
 </style>

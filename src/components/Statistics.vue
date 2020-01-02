@@ -3,16 +3,22 @@
     <div class="bombs-label">Bombs</div>
     <div class="animation">
       <div class="loader"></div>
-      <div class="nb-mines-display">
-        <div class="nb-mines-effect">
-          <div class="nb-mines-label">{{nbMines}}</div>
+      <div class="purple-layer">
+        <div class="nb-mines-display">
+          <div class="nb-mines-effect">
+            <div class="nb-mines-label">{{nbMines}}</div>
+          </div>
         </div>
       </div>
     </div>
     <div class="label">Time</div>
-    <div class="holder">{{timer}}</div>
+    <div class="holder">
+      <div class="wrapper">{{timer}}</div>
+    </div>
     <div class="label">Best</div>
-    <div class="holder">00:00:00</div>
+    <div class="holder">
+      <div class="wrapper">00:00:00</div>
+    </div>
   </div>
 </template>
 
@@ -35,7 +41,7 @@ export default {
 .label {
   font-size: 30px;
   text-align: center;
-  margin: 20px 0px;
+  margin: 15px 0px;
   color: #e4d9ff;
   font-weight: 200;
 }
@@ -51,13 +57,14 @@ export default {
   height: 40px;
   color: #e4d9ff;
   border-radius: 20px;
-  padding-top: 10px;
   display: inline-block;
 }
 
+.wrapper {
+  margin-top: 7.5px;
+}
+
 .nb-mines-display {
-  left: 0;
-  top: 0;
   z-index: 3;
   border-radius: 50%;
   width: 110px;
@@ -65,9 +72,21 @@ export default {
   background-color: #e4d9ff;
   display: inline-block;
   text-align: center;
+  margin-top: 4px;
+}
+.purple-layer {
+  left: 0;
+  top: 0;
+  z-index: 4;
+  border-radius: 50%;
+  width: 118px;
+  height: 118px;
+  background-color: #6c56c3;
+  display: inline-block;
+  text-align: center;
   position: absolute;
-  margin-top: 7px;
-  margin-left: 7px;
+  margin-top: 4px;
+  margin-left: 4px;
 }
 
 .nb-mines-effect {

@@ -65,8 +65,8 @@ export default {
 
 <style scoped>
 .holder {
-  width: 37.5px;
-  height: 37.5px;
+  width: 35px;
+  height: 35px;
   margin: 3px;
   text-align: center;
   border-radius: 10%;
@@ -126,14 +126,11 @@ img {
   box-shadow: inset 5px -5px 10px #5b5b76;
 }
 
-.empty {
-}
-
 .num1 {
   color: #2e8137;
 }
 .num2 {
-  color: #164866;
+  color: #4988af;
 }
 .num3 {
   color: #b6261c;
