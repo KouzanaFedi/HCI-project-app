@@ -20,6 +20,10 @@ class Cell {
     flag() {
         if (this.hidden) {
             this.flagged = !this.flagged;
+            if (this.flagged)
+                return -1;
+            else
+                return 1;
         }
     }
 

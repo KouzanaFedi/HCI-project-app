@@ -5,6 +5,7 @@ class Minesweeper {
         this.nbColumns = nbColumns;
         this.nbRows = nbRows;
         this.nbMines = nbMines;
+        this.mineNotFlagged = this.nbMines;
 
         let grid = new Array(this.nbRows);
         for (let i = 0; i < this.nbRows; i++) {
@@ -128,6 +129,10 @@ class Minesweeper {
             }
         });
         return count;
+    }
+
+    updateMinesNotFlaggedCount(n) {
+        this.mineNotFlagged += n;
     }
 }
 
