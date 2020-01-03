@@ -17,13 +17,16 @@ class Cell {
         this.isMine = true
     }
 
-    flag() {
+    flag(canAdd) {
+
         if (this.hidden) {
-            this.flagged = !this.flagged;
-            if (this.flagged)
+            if (!this.flagged && canAdd) {
+                this.flagged = true;
                 return -1;
-            else
+            } else if (this.flagged) {
+                this.flagged = false;
                 return 1;
+            }
         }
     }
 

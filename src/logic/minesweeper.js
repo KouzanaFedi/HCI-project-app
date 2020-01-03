@@ -6,6 +6,7 @@ class Minesweeper {
         this.nbRows = nbRows;
         this.nbMines = nbMines;
         this.mineNotFlagged = this.nbMines;
+        this.firstClick = true;
 
         let grid = new Array(this.nbRows);
         for (let i = 0; i < this.nbRows; i++) {
@@ -17,7 +18,7 @@ class Minesweeper {
         }
 
         this.grid = grid;
-        this.minesPos = new Array(this.nbMines);
+        this.minesPos = []
 
         for (let index = 0; index < this.nbMines; index++) {
             let {
@@ -28,6 +29,11 @@ class Minesweeper {
             cell.armCell();
         }
 
+        this.UpdateAdjacentMinesCount();
+
+    }
+
+    UpdateAdjacentMinesCount() {
         for (let i = 0; i < this.nbRows; i++) {
             for (let j = 0; j < this.nbColumns; j++) {
                 let cell = this.grid[i][j];
@@ -36,8 +42,6 @@ class Minesweeper {
                 }
             }
         }
-
-
     }
 
     AddMinePos() {
@@ -90,11 +94,50 @@ class Minesweeper {
     }
 
     reveal(i, j) {
+        if (this.firstClick && this.grid[i][j].value == -1) {
+            this.firstClick = false;
+            let xoff = 0,
+                yoff = 0;
+            while (this.grid[xoff][yoff].value == -1) {
+                if (yoff == this.nbColumns) {
+                    xoff++;
+                    yoff = 0;
+                } else
+                    yoff++;
+            }
+            this.grid[xoff][yoff].armCell();
+            this.grid[i][j].value = 0;
+            this.grid[i][j].isMine = false;
+
+            this.UpdateAdjacentMinesCount();
+            this.minesPos.splice(this.getMinePos(i, j), 1);
+            this.minesPos.push({
+                rowIndex: xoff,
+                columnIndex: yoff
+            });
+
+        }
         this.grid[i][j].show();
         if (this.grid[i][j].value == 0) {
             this.floodFill(i, j);
         }
 
+    }
+
+    getMinePos(x, y) {
+        let mine = JSON.stringify({
+            rowIndex: x,
+            columnIndex: y
+        })
+
+
+        this.minesPos.forEach((element, index) => {
+            if (JSON.stringify(element) === mine) {
+                console.log(index);
+
+                return index;
+            }
+        })
     }
 
     getAllNeighbours(rowIndex, columnIndex) {
@@ -132,7 +175,8 @@ class Minesweeper {
     }
 
     updateMinesNotFlaggedCount(n) {
-        this.mineNotFlagged += n;
+        if (n != null)
+            this.mineNotFlagged += n;
     }
 }
 

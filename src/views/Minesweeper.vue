@@ -11,16 +11,17 @@
         :state="timerState"
       />
       <div class="game-container">
+        <div style="flex:1"></div>
         <Grid
           class="grid"
           :key="JSON.stringify(this.minesweeper.grid)"
           :minesweeperGrid="minesweeper.grid"
-          :firstTouch="firstTouch"
+          :firstTouch="minesweeper.firstClick"
           @reveal-cell="reveal"
           @startTimer="start"
           @flag="flag"
         />
-
+        <div style="flex:1"></div>
         <div class="difficulty-buttons">
           <button @click="easy">Easy</button>
           <button @click="meduim">Medium</button>
@@ -50,19 +51,15 @@ export default {
       timerState: "stopped",
       currentTimer: 0,
       formattedTime: "00:00:00",
-      ticker: undefined,
-      firstTouch: true
+      ticker: undefined
     };
   },
   methods: {
     reveal(index) {
-      if (this.firstTouch) {
-        this.firstTouch = false;
-      }
       let { i, j } = index;
-      if (!this.minesweeper.grid[i][j].isMine) {
+      if (!this.minesweeper.grid[i][j].isMine || this.minesweeper.firstClick) {
         this.minesweeper.reveal(i, j);
-      } else {
+      } else if (!this.minesweeper.firstClick) {
         this.minesweeper.minesPos.forEach(element => {
           let { rowIndex, columnIndex } = element;
           let cell = this.minesweeper.grid[rowIndex][columnIndex];
@@ -72,12 +69,13 @@ export default {
         });
         this.pause();
       }
+      this.minesweeper.firstClick = false;
     },
     flag(index) {
       let { i, j } = index;
-      if (this.minesweeper.mineNotFlagged > 0) {
+      if (this.minesweeper.mineNotFlagged >= 0) {
         this.minesweeper.updateMinesNotFlaggedCount(
-          this.minesweeper.grid[i][j].flag()
+          this.minesweeper.grid[i][j].flag(this.minesweeper.mineNotFlagged > 0)
         );
       }
     },
@@ -111,7 +109,7 @@ export default {
       this.currentTimer = 0;
       this.formattedTime = "00:00:00";
       this.timerState = "reseted";
-      this.firstTouch = true;
+      this.minesweeper.firstClick = true;
     },
     tick() {
       this.ticker = setInterval(() => {
@@ -152,12 +150,7 @@ button {
 }
 
 .difficulty-buttons {
-  height: 150px;
-  width: 600px;
-  display: block;
-  position: absolute;
-  left: 30%;
-  top: 75%;
+  margin-bottom: 50px;
 }
 
 .main-container {
@@ -167,23 +160,28 @@ button {
   position: relative;
 }
 .statistics {
+  border-radius: 15px 15px 0 0;
   margin: 25px;
   width: 250px;
-  height: 600px;
+  height: 700px;
   background: linear-gradient(#6c56c3, #7537bc, #9a34b4);
   float: left;
 }
 
 .grid {
-  position: absolute;
+  /* position: absolute;
   top: 5%;
-  left: 5%;
+  left: 5%; */
 }
 .game-container {
-  position: relative;
-  width: 900px;
-  height: 800px;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .back-icon {
