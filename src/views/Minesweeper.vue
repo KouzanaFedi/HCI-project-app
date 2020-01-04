@@ -1,33 +1,27 @@
 <template>
-  <div class="background">
-    <router-link to="/">
-      <img src="../assets/back_icon.png" alt="<" class="back-icon" />
-    </router-link>
-    <div class="main-container">
-      <Statistics
-        class="statistics"
-        :nbMines="minesweeper.mineNotFlagged"
-        :timer="formattedTime"
-        :state="timerState"
-      />
-      <div class="game-container">
-        <div style="flex:1"></div>
-        <Grid
-          class="grid"
-          :key="JSON.stringify(this.minesweeper.grid)"
-          :minesweeperGrid="minesweeper.grid"
-          :firstTouch="minesweeper.firstClick"
-          @reveal-cell="reveal"
-          @startTimer="start"
-          @flag="flag"
-        />
-        <div style="flex:1"></div>
-        <div class="difficulty-buttons">
-          <button @click="easy">Easy</button>
-          <button @click="meduim">Medium</button>
-          <button @click="hard">Hard</button>
-        </div>
-      </div>
+  <div class="main-container">
+    <Statistics
+      class="statistics"
+      :nbMines="minesweeper.mineNotFlagged"
+      :timer="formattedTime"
+      :state="timerState"
+    />
+    <Grid
+      class="grid"
+      :key="JSON.stringify(this.minesweeper.grid)"
+      :minesweeperGrid="minesweeper.grid"
+      :firstTouch="minesweeper.firstClick"
+      @reveal-cell="reveal"
+      @startTimer="start"
+      @flag="flag"
+    />
+    <div class="difficulty-buttons">
+      <button @click="easy">Easy</button>
+      <button @click="meduim">Medium</button>
+      <button @click="hard">Hard</button>
+      <router-link to="/">
+        <img src="../assets/back_icon.png" alt="<" class="back-icon" />
+      </router-link>
     </div>
   </div>
 </template>
@@ -132,12 +126,6 @@ export default {
   display: inline;
 }
 
-.background {
-  min-height: 690px;
-  background-image: url("../assets/background.jpg");
-  background-size: cover;
-}
-
 button {
   width: 120px;
   height: 30px;
@@ -150,45 +138,44 @@ button {
 }
 
 .difficulty-buttons {
-  margin-bottom: 50px;
+  grid-area: buttons;
+  justify-self: center;
+  align-self: start;
 }
 
 .main-container {
-  width: 100%;
-  height: 800px;
-  display: flex;
-  position: relative;
+  background-image: url("../assets/background.jpg");
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 280px auto;
+  grid-template-rows: auto 70px;
+  grid-template-areas:
+    "stat grid"
+    "stat buttons";
 }
 .statistics {
-  border-radius: 15px 15px 0 0;
-  margin: 25px;
+  grid-area: stat;
+  border-radius: 5px 5px 0 0;
   width: 250px;
-  height: 700px;
+  height: 670px;
   background: linear-gradient(#6c56c3, #7537bc, #9a34b4);
-  float: left;
+  justify-self: center;
+  align-self: end;
 }
 
 .grid {
-  /* position: absolute;
-  top: 5%;
-  left: 5%; */
-}
-.game-container {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  grid-area: grid;
+  justify-self: center;
+  align-self: center;
 }
 
 .back-icon {
   width: 30px;
   height: 30px;
-  padding-top: 10px;
-  padding-left: 10px;
+  top: 93%;
+  left: 96.5%;
   position: absolute;
 }
 </style>
