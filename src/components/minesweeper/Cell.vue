@@ -74,10 +74,6 @@ export default {
   background-color: #444362;
 }
 
-img {
-  max-width: 100%;
-  max-height: 100%;
-}
 .mine {
   margin-top: 3px;
   max-width: 30px;

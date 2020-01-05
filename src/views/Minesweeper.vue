@@ -5,6 +5,8 @@
       :nbMines="minesweeper.mineNotFlagged"
       :timer="formattedTime"
       :state="timerState"
+      :difficulty="difficulty"
+      :errors="errors"
     />
     <Grid
       class="grid"
@@ -29,9 +31,9 @@
 <script>
 import Minesweeper from "../logic/minesweeper";
 import Grid from "../components/minesweeper/Grid";
-import Statistics from "../components/Statistics";
+import Statistics from "../components/minesweeper/Statistics";
 
-let minesweeperGrid = new Minesweeper(10, 10, 25);
+let minesweeperGrid = new Minesweeper(7, 7, 15);
 
 export default {
   name: "minesweeper",
@@ -45,7 +47,10 @@ export default {
       timerState: "stopped",
       currentTimer: 0,
       formattedTime: "00:00:00",
-      ticker: undefined
+      ticker: undefined,
+      difficulty: 2,
+      errors: 0,
+      gameOver: false
     };
   },
   methods: {
@@ -54,14 +59,21 @@ export default {
       if (!this.minesweeper.grid[i][j].isMine || this.minesweeper.firstClick) {
         this.minesweeper.reveal(i, j);
       } else if (!this.minesweeper.firstClick) {
-        this.minesweeper.minesPos.forEach(element => {
-          let { rowIndex, columnIndex } = element;
-          let cell = this.minesweeper.grid[rowIndex][columnIndex];
-          if (!cell.flagged) {
-            cell.show();
-          }
-        });
-        this.pause();
+        if (this.errors < this.difficulty - 1) {
+          this.errors++;
+          this.minesweeper.grid[i][j].show();
+        } else {
+          this.errors++;
+          this.gameOver = true;
+          this.minesweeper.minesPos.forEach(element => {
+            let { rowIndex, columnIndex } = element;
+            let cell = this.minesweeper.grid[rowIndex][columnIndex];
+            if (!cell.flagged) {
+              cell.show();
+            }
+          });
+          this.pause();
+        }
       }
       this.minesweeper.firstClick = false;
     },
@@ -74,18 +86,28 @@ export default {
       }
     },
     easy() {
-      let newGrid = new Minesweeper(5, 5, 6);
+      let newGrid = new Minesweeper(7, 7, 8);
       this.minesweeper = newGrid;
+      this.gameOver = false;
+      this.errors = 0;
+      this.difficulty = 3;
       this.reset();
     },
     meduim() {
-      let newGrid = new Minesweeper(10, 10, 25);
+      let newGrid = new Minesweeper(7, 7, 15);
       this.minesweeper = newGrid;
+      this.gameOver = false;
+      this.errors = 0;
+      this.difficulty = 2;
+
       this.reset();
     },
     hard() {
-      let newGrid = new Minesweeper(14, 14, 35);
+      let newGrid = new Minesweeper(7, 7, 23);
       this.minesweeper = newGrid;
+      this.difficulty = 1;
+      this.gameOver = false;
+      this.errors = 0;
       this.reset();
     },
     start() {
@@ -131,10 +153,11 @@ button {
   height: 30px;
   background-color: #7c4dbd;
   border: none;
-  margin: 20px;
+  margin-left: 20px;
   border-radius: 15px;
   color: white;
   font-size: 17px;
+  box-shadow: 5px -5px 60px rgb(8, 6, 6);
 }
 
 .difficulty-buttons {
@@ -150,7 +173,7 @@ button {
   height: 100vh;
   display: grid;
   grid-template-columns: 280px auto;
-  grid-template-rows: auto 70px;
+  grid-template-rows: auto 100px;
   grid-template-areas:
     "stat grid"
     "stat buttons";
@@ -163,6 +186,7 @@ button {
   background: linear-gradient(#6c56c3, #7537bc, #9a34b4);
   justify-self: center;
   align-self: end;
+  box-shadow: 5px -5px 30px rgb(8, 6, 6);
 }
 
 .grid {

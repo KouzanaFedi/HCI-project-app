@@ -11,6 +11,7 @@
         </div>
       </div>
     </div>
+    <Hearts :difficulty="difficulty" :errors="errors" />
     <div class="label">Time</div>
     <div class="holder">
       <div class="wrapper">{{timer}}</div>
@@ -19,13 +20,16 @@
     <div class="holder">
       <div class="wrapper">00:00:00</div>
     </div>
+    <div class="records"></div>
   </div>
 </template>
 
 <script>
+import Hearts from "./hearts";
 export default {
   name: "Statistics",
-  props: ["timer", "state", "nbMines"]
+  props: ["timer", "state", "nbMines", "difficulty", "errors"],
+  components: { Hearts }
 };
 </script>
 
