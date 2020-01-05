@@ -20,7 +20,21 @@
     <div class="holder">
       <div class="wrapper">00:00:00</div>
     </div>
-    <div class="records"></div>
+    <div class="label">Games won</div>
+    <div class="records">
+      <div class="record-holder">
+        <div class="mode">Easy</div>
+        <div class="record">0</div>
+      </div>
+      <div class="record-holder">
+        <div class="mode">Medium</div>
+        <div class="record">0</div>
+      </div>
+      <div class="record-holder">
+        <div class="mode">Hard</div>
+        <div class="record">0</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -34,6 +48,32 @@ export default {
 </script>
 
 <style scoped>
+.records {
+  margin-left: 37.5px;
+  border-radius: 20px;
+  height: 100px;
+  width: 175px;
+  background-color: #5e2f9f;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.record-holder {
+  display: flex;
+  justify-content: space-between;
+}
+.mode {
+  margin-left: 20px;
+  font-size: 20px;
+  font-weight: 200;
+  color: #e4d9ff;
+}
+.record {
+  margin-right: 20px;
+  font-size: 20px;
+  font-weight: 200;
+  color: #e4d9ff;
+}
 .bombs-label {
   font-size: 35px;
   text-align: center;
