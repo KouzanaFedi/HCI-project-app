@@ -18,4 +18,7 @@ body {
   overflow: hidden;
   user-select: none;
 }
+* > button:focus {
+  outline: 0;
+}
 </style>
