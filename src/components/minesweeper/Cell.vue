@@ -2,7 +2,7 @@
   <div class="holder" @click="reveal" @contextmenu="flag">
     <div :class="hidden ? 'element-hidden' : 'element-showen'">
       <div class="effect-div" :class="hidden ? 'effect-div-hidden' : 'effect-div-showen'">
-        <img v-if="flagged" src="../../assets/flag_red.png" alt="?" />
+        <img v-if="flagged" src="../../assets/flag_red.png" alt="?" class="flag" />
         <div v-if="!hidden">
           <div v-if="value>0" class="index" :class="color">{{cellContent}}</div>
           <img v-if="value==-1" src="../../assets/mines_icon.png" alt="X" class="mine" />
@@ -75,28 +75,32 @@ export default {
 }
 
 .mine {
-  margin-top: 3px;
+  margin-top: 1px;
+  max-width: 30px;
+  max-height: 30px;
+}
+.flag {
   max-width: 30px;
   max-height: 30px;
 }
 
 .index {
-  margin-top: 6px;
+  margin-top: 3px;
   font-size: 20px;
   font-weight: bold;
 }
 
 .element-hidden {
-  width: 33px;
-  height: 33px;
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
   background-color: inherit;
   display: inline-block;
   margin-top: 1px;
 }
 .effect-div-hidden {
-  width: 33px;
-  height: 33px;
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
   background-color: transparent;
   display: inline-block;
@@ -104,8 +108,8 @@ export default {
 }
 
 .element-showen {
-  width: 33px;
-  height: 33px;
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
   background-color: inherit;
   display: inline-block;
@@ -113,8 +117,8 @@ export default {
   box-shadow: inset -5px 5px 5px 1px #121219;
 }
 .effect-div-showen {
-  width: 33px;
-  height: 33px;
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
   background-color: transparent;
   display: inline-block;
