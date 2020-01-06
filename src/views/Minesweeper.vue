@@ -18,9 +18,9 @@
       @flag="flag"
     />
     <div class="difficulty-buttons">
-      <button @click="easy">Easy</button>
-      <button @click="meduim">Medium</button>
-      <button @click="hard">Hard</button>
+      <button :class=" difficulty===3 ? 'active-button' : ''" @click="easy">Easy</button>
+      <button :class=" difficulty===2 ? 'active-button' : ''" @click="meduim">Medium</button>
+      <button :class=" difficulty===1 ? 'active-button' : ''" @click="hard">Hard</button>
       <router-link to="/">
         <img src="../assets/back_icon.png" alt="<" class="back-icon" />
       </router-link>
@@ -90,6 +90,7 @@ export default {
       this.gameOver = false;
       this.errors = 0;
       this.difficulty = 3;
+      this.minesweeper.firstClick = true;
       this.chrono.reset();
     },
     meduim() {
@@ -98,6 +99,7 @@ export default {
       this.gameOver = false;
       this.errors = 0;
       this.difficulty = 2;
+      this.minesweeper.firstClick = true;
       this.chrono.reset();
     },
     hard() {
@@ -106,6 +108,7 @@ export default {
       this.difficulty = 1;
       this.gameOver = false;
       this.errors = 0;
+      this.minesweeper.firstClick = true;
       this.chrono.reset();
     }
   }
@@ -127,6 +130,10 @@ button {
   color: white;
   font-size: 17px;
   box-shadow: 5px -5px 60px rgb(8, 6, 6);
+}
+
+.active-button {
+  background-color: #311e4c;
 }
 
 .difficulty-buttons {

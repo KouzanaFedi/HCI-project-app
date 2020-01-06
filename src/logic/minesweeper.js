@@ -133,8 +133,6 @@ class Minesweeper {
 
         this.minesPos.forEach((element, index) => {
             if (JSON.stringify(element) === mine) {
-                console.log(index);
-
                 return index;
             }
         })

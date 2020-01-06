@@ -22,7 +22,6 @@ class Chronometer {
         this.currentTimer = 0;
         this.formattedTime = "00:00:00";
         this.timerState = "reseted";
-        this.minesweeper.firstClick = true;
     }
     tick() {
         this.ticker = setInterval(() => {
