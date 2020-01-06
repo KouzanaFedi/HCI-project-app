@@ -1,29 +1,32 @@
 <template>
-  <div class="main-container">
-    <Statistics
-      class="statistics"
-      :nbMines="minesweeper.mineNotFlagged"
-      :timer="chrono.formattedTime"
-      :state="chrono.timerState"
-      :difficulty="difficulty"
-      :errors="errors"
-    />
-    <Grid
-      class="grid"
-      :key="JSON.stringify(this.minesweeper.grid)"
-      :minesweeperGrid="minesweeper.grid"
-      :firstTouch="minesweeper.firstClick"
-      @reveal-cell="reveal"
-      @startTimer="chrono.start()"
-      @flag="flag"
-    />
-    <div class="difficulty-buttons">
-      <button :class=" difficulty===3 ? 'active-button' : ''" @click="easy">Easy</button>
-      <button :class=" difficulty===2 ? 'active-button' : ''" @click="meduim">Medium</button>
-      <button :class=" difficulty===1 ? 'active-button' : ''" @click="hard">Hard</button>
-      <router-link to="/">
-        <img src="../assets/back_icon.png" alt="<" class="back-icon" />
-      </router-link>
+  <div>
+    <video autoplay muted loop id="myVideo">
+      <source src="../assets/background_vid.mp4" type="video/mp4" />
+    </video>
+    <div class="main-container">
+      <Statistics
+        class="statistics"
+        :nbMines="minesweeper.mineNotFlagged"
+        :timer="chrono.formattedTime"
+        :state="chrono.timerState"
+        :difficulty="difficulty"
+        :errors="errors"
+      />
+      <Grid
+        class="grid"
+        :key="JSON.stringify(this.minesweeper.grid)"
+        :minesweeperGrid="minesweeper.grid"
+        :firstTouch="minesweeper.firstClick"
+        @reveal-cell="reveal"
+        @startTimer="chrono.start()"
+        @flag="flag"
+      />
+      <div class="difficulty-buttons">
+        <button :class=" difficulty===3 ? 'active-button' : ''" @click="easy">Easy</button>
+        <button :class=" difficulty===2 ? 'active-button' : ''" @click="meduim">Medium</button>
+        <button :class=" difficulty===1 ? 'active-button' : ''" @click="hard">Hard</button>
+        <GoBack :topY="'93%'" :leftX="'96.5%'" />
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +36,7 @@ import Minesweeper from "../logic/minesweeper";
 import Grid from "../components/minesweeper/Grid";
 import Statistics from "../components/minesweeper/Statistics";
 import Chronometer from "../utility/Chronometer";
+import GoBack from "../components/GoBack";
 
 let minesweeperGrid = new Minesweeper(7, 7, 15);
 const chrono = new Chronometer();
@@ -41,7 +45,8 @@ export default {
   name: "minesweeper",
   components: {
     Grid,
-    Statistics
+    Statistics,
+    GoBack
   },
   data() {
     return {
@@ -116,6 +121,13 @@ export default {
 </script>
 
 <style scoped>
+#myVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
 .difficulty-buttons button {
   display: inline;
 }
@@ -143,8 +155,9 @@ button {
 }
 
 .main-container {
-  background-image: url("../assets/background.jpg");
-  background-size: cover;
+  position: absolute;
+  /* background-image: url("../assets/background.jpg");
+  background-size: cover; */
   width: 100vw;
   height: 100vh;
   display: grid;
@@ -169,13 +182,5 @@ button {
   grid-area: grid;
   justify-self: center;
   align-self: center;
-}
-
-.back-icon {
-  width: 30px;
-  height: 30px;
-  top: 93%;
-  left: 96.5%;
-  position: absolute;
 }
 </style>
