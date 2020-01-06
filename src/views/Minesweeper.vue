@@ -47,10 +47,6 @@ export default {
     return {
       minesweeper: minesweeperGrid,
       chrono,
-      // timerState: "stopped",
-      // currentTimer: 0,
-      // formattedTime: "00:00:00",
-      // ticker: undefined,
       difficulty: 2,
       errors: 0,
       gameOver: false
@@ -76,7 +72,6 @@ export default {
             }
           });
           this.chrono.pause();
-          //this.pause();
         }
       }
       this.minesweeper.firstClick = false;
@@ -96,7 +91,6 @@ export default {
       this.errors = 0;
       this.difficulty = 3;
       this.chrono.reset();
-      //this.reset();
     },
     meduim() {
       let newGrid = new Minesweeper(7, 7, 15);
@@ -105,7 +99,6 @@ export default {
       this.errors = 0;
       this.difficulty = 2;
       this.chrono.reset();
-      //this.reset();
     },
     hard() {
       let newGrid = new Minesweeper(7, 7, 23);
@@ -114,37 +107,7 @@ export default {
       this.gameOver = false;
       this.errors = 0;
       this.chrono.reset();
-      //this.reset();
     }
-    // start() {
-    //   if (this.timerState !== "running") {
-    //     this.tick();
-    //     this.timerState = "running";
-    //   }
-    // },
-    // pause() {
-    //   window.clearInterval(this.ticker);
-    //   this.timerState = "paused";
-    // },
-    // reset() {
-    //   window.clearInterval(this.ticker);
-    //   this.currentTimer = 0;
-    //   this.formattedTime = "00:00:00";
-    //   this.timerState = "reseted";
-    //   this.minesweeper.firstClick = true;
-    // },
-    // tick() {
-    //   this.ticker = setInterval(() => {
-    //     this.currentTimer++;
-    //     this.formattedTime = this.formatTime(this.currentTimer);
-    //   }, 1000);
-    // },
-    // formatTime(seconds) {
-    //   let measuredTime = new Date(null);
-    //   measuredTime.setSeconds(seconds);
-    //   let MHSTime = measuredTime.toISOString().substr(11, 8);
-    //   return MHSTime;
-    // }
   }
 };
 </script>
