@@ -1,10 +1,11 @@
 class Chronometer {
 
-    constructor() {
+    constructor(pace) {
         this.timerState = "stopped";
         this.currentTimer = 0;
         this.formattedTime = "00:00:00";
         this.ticker = undefined;
+        this.pace = pace;
     }
 
     start() {
@@ -27,7 +28,7 @@ class Chronometer {
         this.ticker = setInterval(() => {
             this.currentTimer++;
             this.formattedTime = this.formatTime(this.currentTimer);
-        }, 1000);
+        }, this.pace);
     }
     formatTime(seconds) {
         let measuredTime = new Date(null);

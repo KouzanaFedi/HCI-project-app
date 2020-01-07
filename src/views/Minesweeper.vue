@@ -11,6 +11,7 @@
         :state="chrono.timerState"
         :difficulty="difficulty"
         :errors="errors"
+        :data="data"
       />
       <Grid
         class="grid"
@@ -21,6 +22,7 @@
         @startTimer="chrono.start()"
         @flag="flag"
       />
+      <div class="lost" @click="tryAgain" v-if="gameOver">Try Again</div>
       <div class="difficulty-buttons">
         <button :class=" difficulty===3 ? 'active-button' : ''" @click="easy">Easy</button>
         <button :class=" difficulty===2 ? 'active-button' : ''" @click="meduim">Medium</button>
@@ -37,10 +39,12 @@ import Grid from "../components/minesweeper/Grid";
 import Statistics from "../components/minesweeper/Statistics";
 import Chronometer from "../utility/Chronometer";
 import GoBack from "../components/GoBack";
+import { readFileSync } from "fs";
 
 let minesweeperGrid = new Minesweeper(7, 7, 15);
-const chrono = new Chronometer();
-
+const chrono = new Chronometer(1000);
+const file = readFileSync("src/storage/minesweeper.json");
+let json = JSON.parse(file);
 export default {
   name: "minesweeper",
   components: {
@@ -54,15 +58,24 @@ export default {
       chrono,
       difficulty: 2,
       errors: 0,
-      gameOver: false
+      gameOver: undefined,
+      data: json
     };
   },
   methods: {
+    tryAgain() {
+      if (this.difficulty == 3) this.easy();
+      else if (this.difficulty == 2) this.meduim();
+      else this.hard();
+    },
     reveal(index) {
       let { i, j } = index;
       if (!this.minesweeper.grid[i][j].isMine || this.minesweeper.firstClick) {
         this.minesweeper.reveal(i, j);
-      } else if (!this.minesweeper.firstClick) {
+      } else if (
+        !this.minesweeper.firstClick &&
+        this.minesweeper.grid[i][j].hidden
+      ) {
         if (this.errors < this.difficulty - 1) {
           this.errors++;
           this.minesweeper.grid[i][j].show();
@@ -92,7 +105,7 @@ export default {
     easy() {
       let newGrid = new Minesweeper(7, 7, 8);
       this.minesweeper = newGrid;
-      this.gameOver = false;
+      this.gameOver = undefined;
       this.errors = 0;
       this.difficulty = 3;
       this.minesweeper.firstClick = true;
@@ -101,7 +114,7 @@ export default {
     meduim() {
       let newGrid = new Minesweeper(7, 7, 15);
       this.minesweeper = newGrid;
-      this.gameOver = false;
+      this.gameOver = undefined;
       this.errors = 0;
       this.difficulty = 2;
       this.minesweeper.firstClick = true;
@@ -111,7 +124,7 @@ export default {
       let newGrid = new Minesweeper(7, 7, 23);
       this.minesweeper = newGrid;
       this.difficulty = 1;
-      this.gameOver = false;
+      this.gameOver = undefined;
       this.errors = 0;
       this.minesweeper.firstClick = true;
       this.chrono.reset();
@@ -130,6 +143,14 @@ export default {
 }
 .difficulty-buttons button {
   display: inline;
+}
+
+.lost {
+  position: absolute;
+  top: 71%;
+  left: 55%;
+  color: darkred;
+  font-size: 35px;
 }
 
 button {

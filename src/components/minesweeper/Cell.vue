@@ -76,6 +76,7 @@ export default {
 
 .mine {
   margin-top: 1px;
+  margin-left: 1px;
   max-width: 30px;
   max-height: 30px;
 }
@@ -113,7 +114,7 @@ export default {
   border-radius: 100%;
   background-color: inherit;
   display: inline-block;
-  margin-top: 1px;
+  margin-top: 2px;
   box-shadow: inset -5px 5px 5px 1px #121219;
 }
 .effect-div-showen {

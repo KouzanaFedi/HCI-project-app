@@ -1,7 +1,9 @@
 <template>
-  <router-link to="/">
-    <img :style="{top :topY,left :leftX}" src="../assets/back_icon.png" alt="<" class="back-icon" />
-  </router-link>
+  <div>
+    <router-link to="/">
+      <img :style="{top :topY,left :leftX}" src="../assets/back_icon.png" alt="<" class="back-icon" />
+    </router-link>
+  </div>
 </template>
 
 <script>

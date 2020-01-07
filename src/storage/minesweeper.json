@@ -1,0 +1,14 @@
+{
+    "hard": {
+        "gamesWon": 2,
+        "best": "00:05:20"
+    },
+    "medium": {
+        "gamesWon": 1,
+        "best": "00:02:04"
+    },
+    "easy": {
+        "gamesWon": 3,
+        "best": "00:04:05"
+    }
+}

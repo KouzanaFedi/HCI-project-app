@@ -15,8 +15,12 @@
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 body {
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   user-select: none;
+  background-image: url("./assets/background2.jpg");
+  background-size: cover;
 }
 * > button:focus {
   outline: 0;
