@@ -1,10 +1,14 @@
 <template>
-  <div>
-    <router-link to="/"></router-link>
-    <router-view />
-  </div>
+  <Minesweeper />
 </template>
 
+<script>
+import Minesweeper from "./views/Minesweeper";
+export default {
+  name: "app",
+  components: { Minesweeper }
+};
+</script>
 
 
 <style>
@@ -15,6 +19,8 @@
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 body {
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   user-select: none;
 }

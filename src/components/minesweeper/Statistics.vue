@@ -18,21 +18,21 @@
     </div>
     <div class="label">Best</div>
     <div class="holder">
-      <div class="wrapper">00:00:00</div>
+      <div class="wrapper">{{recordPerDif}}</div>
     </div>
     <div class="label">Games won</div>
     <div class="records">
       <div class="record-holder">
         <div class="mode">Easy</div>
-        <div class="record">0</div>
+        <div class="record">{{data.easy.gamesWon}}</div>
       </div>
       <div class="record-holder">
         <div class="mode">Medium</div>
-        <div class="record">0</div>
+        <div class="record">{{data.medium.gamesWon}}</div>
       </div>
       <div class="record-holder">
         <div class="mode">Hard</div>
-        <div class="record">0</div>
+        <div class="record">{{data.hard.gamesWon}}</div>
       </div>
     </div>
   </div>
@@ -42,8 +42,15 @@
 import Hearts from "./hearts";
 export default {
   name: "Statistics",
-  props: ["timer", "state", "nbMines", "difficulty", "errors"],
-  components: { Hearts }
+  props: ["timer", "state", "nbMines", "difficulty", "errors", "data"],
+  components: { Hearts },
+  computed: {
+    recordPerDif() {
+      if (this.difficulty == 3) return this.data.easy.best;
+      else if (this.difficulty == 2) return this.data.medium.best;
+      else return this.data.hard.best;
+    }
+  }
 };
 </script>
 
