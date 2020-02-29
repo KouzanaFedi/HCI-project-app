@@ -27,7 +27,6 @@
         <button :class=" difficulty===3 ? 'active-button' : ''" @click="easy">Easy</button>
         <button :class=" difficulty===2 ? 'active-button' : ''" @click="meduim">Medium</button>
         <button :class=" difficulty===1 ? 'active-button' : ''" @click="hard">Hard</button>
-        <GoBack :topY="'93%'" :leftX="'96.5%'" />
       </div>
     </div>
   </div>
@@ -38,7 +37,6 @@ import Minesweeper from "../logic/minesweeper";
 import Grid from "../components/minesweeper/Grid";
 import Statistics from "../components/minesweeper/Statistics";
 import Chronometer from "../utility/Chronometer";
-import GoBack from "../components/GoBack";
 import { readFileSync } from "fs";
 
 let minesweeperGrid = new Minesweeper(7, 7, 15);
@@ -50,7 +48,6 @@ export default {
   components: {
     Grid,
     Statistics,
-    GoBack
   },
   data() {
     return {
@@ -177,8 +174,6 @@ button {
 
 .main-container {
   position: absolute;
-  /* background-image: url("../assets/background.jpg");
-  background-size: cover; */
   width: 100vw;
   height: 100vh;
   display: grid;

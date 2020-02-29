@@ -1,10 +1,14 @@
 <template>
-  <div>
-    <router-link to="/"></router-link>
-    <router-view />
-  </div>
+  <Minesweeper />
 </template>
 
+<script>
+import Minesweeper from "./views/Minesweeper";
+export default {
+  name: "app",
+  components: { Minesweeper }
+};
+</script>
 
 
 <style>
@@ -19,8 +23,6 @@ body {
   height: 100vh;
   overflow: hidden;
   user-select: none;
-  background-image: url("./assets/background2.jpg");
-  background-size: cover;
 }
 * > button:focus {
   outline: 0;
