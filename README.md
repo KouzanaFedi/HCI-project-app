@@ -27,3 +27,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 # Technologies used
 - Electron
 - Vue.js
+
+![Screenshot](AppScreenShot.png)
+
